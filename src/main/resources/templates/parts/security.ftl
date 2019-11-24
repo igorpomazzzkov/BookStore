@@ -7,6 +7,6 @@
         isAdmin = user.isAdmin()>
     <#else >
     <#assign
-        name = "unkown"
+        name = "NoName"
         isAdmin = false>
 </#if>
