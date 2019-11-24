@@ -1,0 +1,24 @@
+form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    border-radius: 5px;
+}
+.login_page{
+    display: grid;
+    padding: 5px;
+    width: 500px;
+    grid-gap: 10px;
+}
+
+.login_page_button{
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 200px 280px;
+}
+.invalid-feedback{
+    margin: 0 0 -5px;
+}

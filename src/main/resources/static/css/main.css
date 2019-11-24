@@ -1,0 +1,137 @@
+* {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+}
+
+body {
+        background-color: #d8d9dd; !important;
+    font-family: -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, Geneva, Noto Sans Armenian, Noto Sans Bengali, Noto Sans Cherokee, Noto Sans Devanagari, Noto Sans Ethiopic, Noto Sans Georgian, Noto Sans Hebrew, Noto Sans Kannada, Noto Sans Khmer, Noto Sans Lao, Noto Sans Osmanya, Noto Sans Tamil, Noto Sans Telugu, Noto Sans Thai, sans-serif;
+}
+
+p{
+    padding: 0;
+    margin: 0;
+}
+a{
+    color: black; !important;
+    text-decoration: none; !important;
+}
+
+a:hover{
+    color: #616161; !important;
+    text-decoration: none; !important;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    justify-content: center;
+    margin-top: -50px;
+}
+.account_blue{
+    display: flex;
+    width: 100vw;
+    height: 50px;
+    background-color: #4a76a8;
+}
+.page {
+    display: grid;
+    width: 1080px;
+}
+
+.books {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.account {
+    display: flex;
+    height: 50px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.main_page {
+    display: flex;
+    width: 100%;
+}
+
+.context-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20%;
+    height: 500px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin-left: 10px;
+}
+
+.book {
+    display: flex;
+    width: 100%;
+    height: 240px;
+    background-color: white;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+}
+
+.book .img {
+    display: flex;
+    justify-content: center;
+    width: 20%;
+    height: 100%;
+}
+
+.img > img {
+    display: flex;
+    width: 80%;
+    height: 100%;
+}
+
+.date-book {
+    width: 80%;
+    flex-direction: column;
+}
+
+.book_name {
+    display: flex;
+    width: 100%;
+}
+
+.book_info {
+    display: flex;
+}
+
+.book_info_text, .book_info_date {
+    display: flex;
+    flex-direction: column;
+    margin-right: 30px;
+}
+
+.book_info > .book_info_text > p, .book_info > .book_info_date > p {
+    font-size: 13px;
+    color: #828282;
+    padding: 0;
+    margin-bottom: 5px;
+}
+
+.book_author {
+    color: #6b6b6b
+}
