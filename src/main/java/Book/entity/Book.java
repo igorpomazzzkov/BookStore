@@ -1,12 +1,15 @@
 package Book.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-public class Book {
+public class Book{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -38,6 +41,16 @@ public class Book {
 
     @Column(name = "description")
     private String text;
+
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "cart",
+            joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
+    )
+    private Set<User> users = new HashSet<User>();
 
     public Book() {
     }
@@ -144,5 +157,13 @@ public class Book {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }

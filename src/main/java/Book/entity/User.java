@@ -8,12 +8,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "usr")
-public class User implements UserDetails {
+public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -56,6 +58,14 @@ public class User implements UserDetails {
     @JoinColumn(name = "user_id", nullable = false)
     @Enumerated(EnumType.STRING)
     private Set<Role> roleSet;
+
+    @ManyToMany
+    @JoinTable(name = "cart",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id")
+
+    )
+    private Set<Book> books = new HashSet<Book>();
 
     public long getId() {
         return id;
@@ -156,5 +166,13 @@ public class User implements UserDetails {
 
     public boolean isAdmin(){
         return roleSet.contains(Role.ADMIN);
+    }
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
 }

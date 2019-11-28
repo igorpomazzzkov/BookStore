@@ -14,13 +14,15 @@
                 </#if>
             </nav>
         </div>
-        <div class="account_page_cart">
-            <div class="cart" data-toggle="modal" data-target="#exampleModalCenter">
-                <#if user?? && name!="unkown">
-                    <div class="user_name">${name}</div>
-                </#if>
-                <div class="cart_img"></div>
+        <a href="/cart">
+            <div class="account_page_cart">
+                <div class="cart" data-toggle="modal" data-target="#exampleModalCenter">
+                    <#if user?? && name!="unkown">
+                        <div class="user_name">${name}</div>
+                    </#if>
+                    <div class="cart_img"></div>
+                </div>
             </div>
-        </div>
+        </a>
     </div>
 </#macro>

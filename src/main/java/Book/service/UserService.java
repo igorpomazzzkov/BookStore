@@ -1,5 +1,6 @@
 package Book.service;
 
+import Book.entity.Book;
 import Book.entity.Role;
 import Book.entity.User;
 import Book.repository.UserRepository;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -124,4 +126,15 @@ public class UserService implements UserDetailsService{
         }
     }
 
+    @Transactional
+    public void addToCart(User user, Book book){
+        user.getBooks().add(book);
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public void removeFromCart(User user, Book book){
+        user.getBooks().remove(book);
+        userRepository.save(user);
+    }
 }

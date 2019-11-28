@@ -2,5 +2,5 @@
 <#import "parts/main.ftl" as home>
 
 <@common.page>
-    <@home.home "/addToCart" false/>
+    <@home.home "/removeFromCart" true/>
 </@common.page>
