@@ -2,31 +2,30 @@ package Book.controller;
 
 import Book.entity.Book;
 import Book.entity.User;
-import Book.repository.BookRepository;
 import Book.service.BookService;
 import Book.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-@Transactional
 public class CartController {
 
-    @Autowired
-    private BookService bookService;
+    private final BookService bookService;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public CartController(BookService bookService, UserService userService) {
+        this.bookService = bookService;
+        this.userService = userService;
+    }
 
     @GetMapping("/cart")
     public String cart(Model model,
@@ -38,20 +37,23 @@ public class CartController {
         return "homeCart";
     }
 
-    @GetMapping("/addToCart/{book_id}")
+    @PostMapping("/addToCart/{book_id}")
     public String addToCart(
                             @PathVariable("book_id") Book book,
-                            @AuthenticationPrincipal User user) {
+                            @AuthenticationPrincipal User user)
+    {
+        user = userService.find(user.getUsername());
         userService.addToCart(user, book);
-        return "redirect:/login";
+        return "redirect:/cart";
     }
 
-    @GetMapping("/removeFromCart/{book_id}")
+    @PostMapping("/removeFromCart/{book_id}")
     public String removeFromCart(
             @PathVariable("book_id") Book book,
             @AuthenticationPrincipal User user
     ){
+        user = userService.find(user.getUsername());
         userService.removeFromCart(user, book);
-        return "redirect:/login";
+        return "redirect:/cart";
     }
 }

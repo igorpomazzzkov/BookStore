@@ -1,5 +1,6 @@
 <#import "pager.ftl" as pager>
 <#macro home path isCartForm>
+<#include "security.ftl">
 
 
 <#if books.content?has_content>
@@ -28,9 +29,15 @@
                         </div>
                     </div>
                     <#if isCartForm>
-                        <a href="/removeFromCart/${book.id}" class="btn btn-danger">Удалить из корзины</a>
+                        <form method="post" action="${path}/${book.id}">
+                            <input type="hidden" value="${_csrf.token}" name="_csrf">
+                            <input type="submit" class="btn btn-danger" value="Удалить из корзины">
+                        </form>
                     <#else>
-                        <a href="/addToCart/#{book.id}" class="btn btn-info">Добавить в корзину</a>
+                        <form method="post" action="${path}/${book.id}">
+                            <input type="hidden" value="${_csrf.token}" name="_csrf">
+                            <input type="submit" class="btn btn-info" value="Добавить в корзину">
+                        </form>
                     </#if>
                 </div>
             </div>

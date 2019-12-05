@@ -4,6 +4,7 @@ import Book.entity.Author;
 import Book.entity.Book;
 import Book.repository.AuthorRepository;
 import Book.repository.BookRepository;
+import Book.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class AuthorController {
 
     @Autowired
-    private BookRepository bookRepository;
+    private BookService bookService;
 
     @Autowired
     private AuthorRepository authorRepository;
@@ -30,7 +31,7 @@ public class AuthorController {
            @PageableDefault(sort = {"name"}, direction = Sort.Direction.ASC, value = 5) Pageable pageable
     ){
         Author author = authorRepository.findById(id);
-        Page<Book> books = bookRepository.findAllByAuthorOrderByName(author, pageable);
+        Page<Book> books = bookService.findAllByAuthorOrderByName(author, pageable);
         model.addAttribute("books", books);
         model.addAttribute("url","/book/author={author_id}");
         System.out.println();

@@ -6,6 +6,7 @@ import Book.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -14,4 +15,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Book findByIdOrderByName(long id);
     Page<Book> findAllByAuthorOrderByName(Author author, Pageable pageable);
     Page<Book> findBooksByUsers(User user, Pageable pageable);
+
+    //@Query(value = "SELECT b FROM book b WHERE b.name LIKE '%вино%'")
+    Page<Book> findBooksByName(String name, Pageable pageable);
 }

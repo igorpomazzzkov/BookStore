@@ -16,11 +16,11 @@
             <input type="text" class="form-control" name="username" placeholder="username"/>
 
             <input type="password" class="form-control" name="password" value="" placeholder="password"/>
-            <input type="hidden" name="_csrf" value="${_csrf.token}" />
             <div class="login_page_button">
                 <a class="btn btn-light" href="/registration">Регистрация</a>
                 <input type="submit" class="btn btn-success" value="Войти"/>
             </div>
+            <input type="hidden" name="_csrf" value="${_csrf.token}" />
         </div>
     </form>
 </@common.page>

@@ -3,7 +3,7 @@
     <link rel="stylesheet" type="text/css" href="/static/css/context.css">
     <div class="context-page">
         <#if categories?has_content>
-        <form method="post" class="form-control">
+        <form method="post" class="form-control" action="/search">
             <label for="nameOfBook">Название книги:</label>
             <input type="text" name="nameOfBook" class="form-control">
             <hr>
@@ -24,6 +24,7 @@
                 </#list>
             </select>
             <hr>
+            <input type="hidden" value="${_csrf.token}" name="_csrf">
             <input type="submit" class="btn btn-dark" value="Фильтр"/>
         </form>
             <#else >

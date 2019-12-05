@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -59,13 +60,28 @@ public class User implements UserDetails, Serializable {
     @Enumerated(EnumType.STRING)
     private Set<Role> roleSet;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "cart",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id")
-
-    )
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "book_id") })
     private Set<Book> books = new HashSet<Book>();
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || object.getClass() != getClass()) {
+            return false;
+        }
+        User user = (User) object;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
     public long getId() {
         return id;
@@ -132,6 +148,7 @@ public class User implements UserDetails, Serializable {
         return getRoleSet();
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
@@ -164,7 +181,7 @@ public class User implements UserDetails, Serializable {
         this.activeCode = activeCode;
     }
 
-    public boolean isAdmin(){
+    public boolean isAdmin() {
         return roleSet.contains(Role.ADMIN);
     }
 

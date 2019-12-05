@@ -6,10 +6,11 @@ import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
-public class Book{
+public class Book implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -35,25 +36,21 @@ public class Book{
     @Column(name = "filename")
     private String filename;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne
     @JoinColumn(name = "publishing_id")
     private Publishing publishing;
 
     @Column(name = "description")
     private String text;
 
-
-
-    @ManyToMany
-    @JoinTable(
-            name = "cart",
-            joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
-    )
-    private Set<User> users = new HashSet<User>();
-
     public Book() {
     }
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "cart",
+            joinColumns = {@JoinColumn(name = "book_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    private Set<User> users = new HashSet<User>();
 
     public Book(String name, Date dateOfPublication, double price, int countOfPage, Author author, Publishing publishing, String text) {
         setName(name);
@@ -65,7 +62,24 @@ public class Book{
         setText(text);
     }
 
-    public String getPublishingHouse(){
+//    @Override
+//    public boolean equals(Object object) {
+//        if (this == object) {
+//            return true;
+//        }
+//        if (object == null || object.getClass() != getClass()) {
+//            return false;
+//        }
+//        Book book = (Book) object;
+//        return Objects.equals(id, book.id);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(id);
+//    }
+
+    public String getPublishingHouse() {
         return publishing != null ? publishing.getName() : "";
     }
 
@@ -152,7 +166,7 @@ public class Book{
     }
 
     public String getText() {
-        return text != null ? text.toString() : "Здесь должно быть описание книги, но администратор его не добавил";
+        return !text.isBlank() ? text.toString() : "Здесь должно быть описание книги, но администратор его не добавил";
     }
 
     public void setText(String text) {

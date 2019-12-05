@@ -3,8 +3,10 @@ package Book.service;
 import Book.entity.Book;
 import Book.entity.Role;
 import Book.entity.User;
+import Book.repository.BookRepository;
 import Book.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,6 +37,10 @@ public class UserService implements UserDetailsService{
             throw new UsernameNotFoundException("User not found");
         }
         return user;
+    }
+
+    public User find(String username){
+        return userRepository.findByUsername(username);
     }
 
     public boolean addUser(User user){
@@ -126,13 +132,11 @@ public class UserService implements UserDetailsService{
         }
     }
 
-    @Transactional
     public void addToCart(User user, Book book){
         user.getBooks().add(book);
         userRepository.save(user);
     }
 
-    @Transactional
     public void removeFromCart(User user, Book book){
         user.getBooks().remove(book);
         userRepository.save(user);

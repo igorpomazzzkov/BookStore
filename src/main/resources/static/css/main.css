@@ -101,6 +101,8 @@ a:hover{
 
 .img > img {
     display: flex;
+    justify-content: center;
+    align-content: center;
     width: 80%;
     height: 100%;
 }
@@ -110,7 +112,7 @@ a:hover{
     flex-direction: column;
 }
 
-.date-book > a{
+.date-book > form > input{
     float: right;
     margin-right: 20px;
 }

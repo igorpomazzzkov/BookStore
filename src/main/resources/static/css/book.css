@@ -11,7 +11,15 @@
 .book .img{
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 400px;
+    height: 100%;
+}
+.book > .img > img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
 }
 .book_additional_info > p{
     font-weight: bold;
