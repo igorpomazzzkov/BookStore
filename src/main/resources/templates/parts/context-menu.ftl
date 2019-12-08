@@ -12,13 +12,19 @@
             <hr>
             <label for="priceMin">Цена:</label>
             <div class="block-price">
-                <input type="number" name="priceMin" class="form-control">
-                <input type="number" name="priceMax" class="form-control">
+                <div class="block-price-info">
+                    <p>От:</p>
+                    <p>До:</p>
+                </div>
+                <div class="block-price-input">
+                    <input type="number" name="priceMin" class="form-control">
+                    <input type="number" name="priceMax" class="form-control">
+                </div>
             </div>
             <hr>
             <label for="category">Жанр:</label>
-            <select class="form-control" id="exampleFormControlSelect1">
-                <option aria-checked="true">---</option>
+            <select class="form-control" id="exampleFormControlSelect1" name="genre">
+                <option aria-checked="true"></option>
                 <#list categories as category>
                     <option>${category.name}</option>
                 </#list>

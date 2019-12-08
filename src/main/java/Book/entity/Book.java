@@ -4,10 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Book implements Serializable {
@@ -43,14 +40,20 @@ public class Book implements Serializable {
     @Column(name = "description")
     private String text;
 
-    public Book() {
-    }
-
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "cart",
             joinColumns = {@JoinColumn(name = "book_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")})
     private Set<User> users = new HashSet<User>();
+
+    @ManyToMany
+    @JoinTable(name = "book_category",
+            joinColumns = {@JoinColumn(name = "book_id")},
+            inverseJoinColumns = {@JoinColumn(name = "category_id")})
+    private List<Category> categories = new ArrayList<Category>();
+
+    public Book() {
+    }
 
     public Book(String name, Date dateOfPublication, double price, int countOfPage, Author author, Publishing publishing, String text) {
         setName(name);
@@ -62,22 +65,22 @@ public class Book implements Serializable {
         setText(text);
     }
 
-//    @Override
-//    public boolean equals(Object object) {
-//        if (this == object) {
-//            return true;
-//        }
-//        if (object == null || object.getClass() != getClass()) {
-//            return false;
-//        }
-//        Book book = (Book) object;
-//        return Objects.equals(id, book.id);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(id);
-//    }
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || object.getClass() != getClass()) {
+            return false;
+        }
+        Book book = (Book) object;
+        return Objects.equals(id, book.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
     public String getPublishingHouse() {
         return publishing != null ? publishing.getName() : "";
@@ -179,5 +182,13 @@ public class Book implements Serializable {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 }

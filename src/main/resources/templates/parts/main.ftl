@@ -1,8 +1,12 @@
 <#import "pager.ftl" as pager>
-<#macro home path isCartForm>
+<#macro home path isCartForm isSearch>
 <#include "security.ftl">
 
-
+<#if isSearch>
+    <div class="alert alert-${messageType}" role="alert">
+        <p>${message}</p>
+    </div>
+</#if>
 <#if books.content?has_content>
     <div>
         <#list books.content as book>
@@ -44,7 +48,7 @@
         </#list>
         <@pager.pager url books/>
     </div>
-<#else>
+<#elseif isCartForm>
     <div class="empty_cart">
         <a href="/book"><h2>Корзина пуста</h2></a>
     </div>

@@ -80,7 +80,7 @@ public class UserService implements UserDetailsService{
         return true;
     }
 
-    public List<User> findAll() {
+    public List<User> findAll(  ) {
         return userRepository.findAll();
     }
 

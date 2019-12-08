@@ -1,10 +1,7 @@
 package Book.controller;
 
 import Book.entity.Book;
-import Book.entity.BookCategories;
 import Book.entity.Category;
-import Book.repository.BookCategoriesRepository;
-import Book.repository.BookRepository;
 import Book.repository.CategoryRepository;
 import Book.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +12,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class BookController {
@@ -30,45 +25,65 @@ public class BookController {
     private BookService bookService;
 
     @Autowired
-    private BookCategoriesRepository bookCategoriesRepository;
-
-    @Autowired
     private CategoryRepository categoryRepository;
 
     @Value("${upload.path}")
     private String uploadPath;
 
     @GetMapping("/")
-    public String mainPage(Model model) {
+    public String mainPage() {
         return "redirect:/book";
     }
 
+    public Model getCategories(Model model) {
+        model.addAttribute("categories", categoryRepository.findAll());
+        return model;
+    }
+
     @GetMapping("/book")
-    public String homePage(Map<String, Object> model,
-                           @PageableDefault(sort = {"name"}, direction = Sort.Direction.ASC ,value = 5) Pageable pageable) {
+    public String homePage(Model model,
+                           @PageableDefault(sort = {"name"}, direction = Sort.Direction.ASC, value = 5) Pageable pageable) {
         Page<Book> books = bookService.findAllByOrderByName(pageable);
-        model.put("books", books);
-        model.put("url", "/book");
-        List<Category> categories = categoryRepository.findAll();
-        model.put("categories", categories);
+        model.addAttribute("books", books);
+        model.addAttribute("url", "/book");
+        getCategories(model);
         return "home";
     }
 
     @GetMapping("/book/book={id}")
     public String bookById(@PathVariable("id") int id,
-                           Map<String, Object> model) {
+                           Model model) {
         Book book = bookService.findByIdOrderByName(id);
-        model.put("book", book);
-        List<BookCategories> categories = bookCategoriesRepository.findByBook(book);
-        model.put("bookCategories", categories);
+        model.addAttribute("book", book);
+        List<Category> categories = book.getCategories();
+        model.addAttribute("bookCategories", categories);
         return "showBook";
     }
 
-    @PostMapping("/search")
+    @RequestMapping(value = "/search", method = {RequestMethod.GET, RequestMethod.POST})
     public String search(Model model,
-                         Pageable pageable,
-                         @RequestParam String nameOfBook){
-        model.addAttribute(bookService.findBooksByName(nameOfBook, pageable));
-        return "home";
+                         @PageableDefault(sort = {"name"}, direction = Sort.Direction.ASC, value = 5) Pageable pageable,
+                         @RequestParam(required = false) Map<String, String> form) {
+        boolean isBlankForm = false;
+        for (Map.Entry<String, String> element : form.entrySet()) {
+            if (!element.getKey().equals("_csrf") && !element.getValue().isBlank()) {
+                isBlankForm = true;
+            }
+        }
+        if (isBlankForm) {
+            Page<Book> books = bookService.findBooksByName(form, pageable);
+            if (books.getNumberOfElements() == 0) {
+                model.addAttribute("messageType", "danger");
+                model.addAttribute("message", "Ничего не найдено");
+            } else {
+                model.addAttribute("messageType", "success");
+                model.addAttribute("message", "Результат поиска");
+            }
+            model.addAttribute("books", books);
+            model.addAttribute("url", "/search");
+            getCategories(model);
+            return "/homeSearch";
+        }
+        return "redirect:/book";
     }
 }

@@ -12,10 +12,20 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
     Page<Book> findAllByOrderByName(Pageable pageable);
+
     Book findByIdOrderByName(long id);
+
     Page<Book> findAllByAuthorOrderByName(Author author, Pageable pageable);
+
     Page<Book> findBooksByUsers(User user, Pageable pageable);
 
-    //@Query(value = "SELECT b FROM book b WHERE b.name LIKE '%вино%'")
-    Page<Book> findBooksByName(String name, Pageable pageable);
+    @Query(value = "SELECT b FROM Book b WHERE " +
+            "UPPER(b.name) LIKE CONCAT ('%',UPPER(:nameOfBook),'%') AND " +
+            "(UPPER(b.author.firstName) LIKE CONCAT ('%',UPPER(:author),'%') OR UPPER(b.author.lastName) LIKE CONCAT('%',UPPER(:author),'%')) AND " +
+            "(b.price >= :priceMin AND b.price <= :priceMax)")
+    Page<Book> findBooksByName(String nameOfBook,
+                               String author,
+                               Double priceMin,
+                               Double priceMax,
+                               Pageable pageable);
 }

@@ -12,9 +12,17 @@
 }
 .block-price{
     display: flex;
+    flex-direction: column;
+}
+.block-price > div {
+    display: flex;
+    justify-content: space-around;
     flex-direction: row;
 }
-.block-price > input {
+.block-price-info > p{
+    font-size: 13px;
+}
+.block-price-input > input{
     margin: 5px;
 }
 

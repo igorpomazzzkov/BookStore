@@ -62,8 +62,8 @@ public class User implements UserDetails, Serializable {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "cart",
-            joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = { @JoinColumn(name = "book_id") })
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "book_id")})
     private Set<Book> books = new HashSet<Book>();
 
     @Override
@@ -183,6 +183,10 @@ public class User implements UserDetails, Serializable {
 
     public boolean isAdmin() {
         return roleSet.contains(Role.ADMIN);
+    }
+
+    public boolean isEditor(){
+        return roleSet.contains(Role.EDITOR);
     }
 
     public Set<Book> getBooks() {

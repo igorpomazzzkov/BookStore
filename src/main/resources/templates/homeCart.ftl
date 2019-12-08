@@ -2,5 +2,8 @@
 <#import "parts/main.ftl" as home>
 
 <@common.page>
-    <@home.home "/removeFromCart" true/>
+    <div class="alert alert-warning" role="alert">
+        <p>Ваша корзина</p>
+    </div>
+    <@home.home "/removeFromCart" true false/>
 </@common.page>

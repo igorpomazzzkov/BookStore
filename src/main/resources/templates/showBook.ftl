@@ -31,7 +31,7 @@
                             <p>${book.getCountOfPage()} с.</p>
                             <p>
                                 <#list bookCategories as bookCategory>
-                                        ${bookCategory.category.name},
+                                    ${bookCategory.name}<#if bookCategory?has_next>,</#if>
                                 </#list>
                             </p>
                         </div>
