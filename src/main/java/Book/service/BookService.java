@@ -69,4 +69,20 @@ public class BookService {
     public Page<Book> findAllByOrderByName(Pageable pageable) {
         return bookRepository.findAllByOrderByName(pageable);
     }
+
+    public void deleteBook(long id){
+        bookRepository.deleteBookById(id);
+    }
+
+    public Book findBooksById(long id){
+        return bookRepository.findBooksById(id);
+    }
+
+    public void addBook(Book book){
+        bookRepository.save(book);
+    }
+
+    public Author getAuthorByFirstName(String name){
+        return authorRepository.findAllByFirstName(name);
+    }
 }

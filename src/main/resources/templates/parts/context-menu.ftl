@@ -2,7 +2,15 @@
     <#include "security.ftl">
     <link rel="stylesheet" type="text/css" href="/static/css/context.css">
     <div class="context-page">
-        <#if categories?has_content>
+        <#if isEditor>
+            <div class="isEditor-block">
+                <ul>
+                    <li><a href="/addBook">Добавить книгу</a></li>
+                    <li><a href="/author">Авторы</a></li>
+                    <li><a href="/publish">Издательства</a></li>
+                </ul>
+            </div>
+        <#elseif categories?has_content>
         <form method="post" class="form-control" action="/search">
             <label for="nameOfBook">Название книги:</label>
             <input type="text" name="nameOfBook" class="form-control">

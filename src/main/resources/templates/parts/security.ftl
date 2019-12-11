@@ -5,10 +5,14 @@
         name = user.getFirstName()
         username = user.getUsername()
         userID = user.getId()
-        isAdmin = user.isAdmin()>
+        isAdmin = user.isAdmin()
+        isEditor = user.isEditor()
+    >
     <#else >
     <#assign
         name = "NoName"
         userID = -1
-        isAdmin = false>
+        isAdmin = false
+        isEditor = false
+    >
 </#if>

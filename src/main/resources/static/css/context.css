@@ -40,3 +40,35 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
+.alert-warning{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    overflow-y: hidden;
+}
+.isEditor-block{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+.isEditor-block > ul{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    margin: 5px;
+}
+.isEditor-block li > a{
+    display: flex;
+    font-family: cursive;
+    padding: 5px;
+    margin: 5px;
+    color: #285473;
+}
+.isEditor-block li > a:hover{
+    cursor: pointer;
+    background-color: rgba(114, 120, 255, 0.17);
+    border-radius: 5px;
+}
+

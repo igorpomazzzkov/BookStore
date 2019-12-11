@@ -1,9 +1,11 @@
 package Book.entity;
 
-import javax.persistence.*;
+import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "publishing")
@@ -14,10 +16,12 @@ public class Publishing implements Serializable{
     private long id;
 
     @Column(name = "name")
+    @NotBlank(message = "Enter name please")
+    @Length(max = 255, message = "Last name too long")
     private String name;
 
-    @OneToMany(mappedBy = "publishing", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Book> books;
+    @OneToMany(mappedBy = "publishing",cascade = CascadeType.ALL)
+    private List<Book> books;
 
     public Publishing(){}
     public Publishing(String name){
@@ -40,11 +44,11 @@ public class Publishing implements Serializable{
         this.name = name;
     }
 
-    public Set<Book> getBooks() {
+    public List<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(Set<Book> books) {
+    public void setBooks(List<Book> books) {
         this.books = books;
     }
 }

@@ -17,7 +17,7 @@ public class Book implements Serializable {
     @OrderBy(value = "name asc")
     private String name;
 
-    @Column(name = "date_of_publication", nullable = false)
+    @Column(name = "date_of_publication")
     private Date dateOfPublication;
 
     @Column(name = "price", nullable = false)
@@ -25,10 +25,6 @@ public class Book implements Serializable {
 
     @Column(name = "count_of_page", nullable = false)
     private int countOfPage;
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "author_id", nullable = false)
-    private Author author;
 
     @Column(name = "filename")
     private String filename;
@@ -39,6 +35,10 @@ public class Book implements Serializable {
 
     @Column(name = "description")
     private String text;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "author_id")
+    private Author author;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "cart",
@@ -55,14 +55,14 @@ public class Book implements Serializable {
     public Book() {
     }
 
-    public Book(String name, Date dateOfPublication, double price, int countOfPage, Author author, Publishing publishing, String text) {
+    public Book(String name, double price, int countOfPage, Author author, Publishing publishing, String text, Date date) {
         setName(name);
-        setDateOfPublication(dateOfPublication);
         setPrice(price);
         setCountOfPage(countOfPage);
         setAuthor(author);
         setPublishing(publishing);
         setText(text);
+        setDateOfPublication(date);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class Book implements Serializable {
         return dateFormat.format(dateOfPublication);
     }
 
-    private static DateFormatSymbols myDateFormatSymbols = new DateFormatSymbols() {
+    public static DateFormatSymbols myDateFormatSymbols = new DateFormatSymbols() {
         @Override
         public String[] getMonths() {
             return new String[]{"января", "февраля", "марта", "апреля", "мая", "июня",
